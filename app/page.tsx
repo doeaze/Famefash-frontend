@@ -7,7 +7,7 @@ import { useKeenSlider } from 'keen-slider/react';
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import 'keen-slider/keen-slider.min.css';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AutoplayPlugin } from '@/lib/keen-autoplay';
 const slides = [
   {
@@ -39,11 +39,11 @@ export default function Home() {
     created(s) {
       s.moveToIdx(0);
     },
-  },[AutoplayPlugin]);
+  }, [AutoplayPlugin]);
 
   const [timeLeft, setTimeLeft] = useState({ days: 2, hours: 6, minutes: 5, seconds: 30 });
 
-    useEffect(() => {
+  useEffect(() => {
     const interval = setInterval(() => {
       setTimeLeft(prev => {
         let { days, hours, minutes, seconds } = prev;
@@ -100,13 +100,13 @@ export default function Home() {
         </div>
 
         {/* Pagination Dots */}
-        
+
       </section>
       <div className="absolute bottom-[-3] left-1/2 transform -translate-x-1/2 flex gap-1">
-          {slides.map((_, idx) => (
-            <div key={idx} className="w-2 h-2 rounded-full bg-gray-300 hover:bg-black cursor-pointer"></div>
-          ))}
-        </div>
+        {slides.map((_, idx) => (
+          <div key={idx} className="w-2 h-2 rounded-full bg-gray-300 hover:bg-black cursor-pointer"></div>
+        ))}
+      </div>
 
       {/* Categories Section */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 px-6 lg:px-20 pb-10 mt-12">
@@ -191,6 +191,40 @@ export default function Home() {
           <Image src="/w2.svg" alt="Sale 2" width={400} height={500} className="object-cover w-full h-full" />
         </div>
       </section>
+      {/* Category Banners Section */}
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 px-6 lg:px-20 py-10">
+        {[
+          {
+            title: 'Casual Wear',
+            image: '/w1.svg',
+          },
+          {
+            title: '50% Summer Collection',
+            image: '/w2.svg',
+          },
+          {
+            title: 'Sports Ready',
+            image: '/w3.svg',
+          },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className="relative h-[300px] group cursor-pointer overflow-hidden"
+          >
+            <img
+              src={item.image}
+              alt={item.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0  bg-opacity-20 flex items-center justify-center text-center px-4">
+              <h3 className="text-white text-xl sm:text-2xl font-semibold leading-tight">
+                {item.title}
+              </h3>
+            </div>
+          </div>
+        ))}
+      </section>
+
 
       {/* Best Outfit Section */}
       <section className="px-6 lg:px-20 py-10">
