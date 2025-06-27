@@ -8,6 +8,7 @@ import Login from "@/components/login";
 import Checkout from "@/components/checkout";
 import CartPage from "@/components/CartPage";
 import ProductListPage from "@/components/ProductListPage";
+import ProductDetail from "@/components/ProductDetail";
 
 
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} px-4 sm:px-6 lg:px-20`}>
         <Navbar/>
         <main>{children}</main>
+        {/* <ProductDetail/> */}
         {/* <ProductListPage/> */}
         {/* <Home/> */}
        

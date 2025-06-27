@@ -192,7 +192,7 @@ export default function Home() {
         </div>
       </section>
       {/* Category Banners Section */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 px-6 lg:px-20 py-10">
+      <section className="grid grid-cols-1 sm:grid-cols-3  px-6 lg:px-0 py-10">
         {[
           {
             title: 'Casual Wear',
@@ -200,7 +200,7 @@ export default function Home() {
           },
           {
             title: '50% Summer Collection',
-            image: '/w2.svg',
+            image: '/w3.svg',
           },
           {
             title: 'Sports Ready',
@@ -268,6 +268,25 @@ export default function Home() {
           priority
         />
       </section>
+      {/* Limited Edition Promo Banner */}
+<section className="relative w-full h-[550px] mt-12">
+  <img
+    src="/bottom.svg" 
+    alt="Limited Edition Offer"
+    className="w-full h-full object-cover"
+  />
+  {/* <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 text-white">
+    <p className="text-sm uppercase mb-1">Limited Edition</p>
+    <h2 className="text-4xl font-bold mb-2">50% OFF</h2>
+    <a
+      href="#"
+      className="text-sm underline hover:text-gray-300 transition-all duration-200"
+    >
+      see all collection
+    </a>
+  </div> */}
+</section>
+
     </div>
   )
 }
