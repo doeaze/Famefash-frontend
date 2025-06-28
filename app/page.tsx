@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import 'keen-slider/keen-slider.min.css';
 import { useState, useEffect } from 'react';
 import { AutoplayPlugin } from '@/lib/keen-autoplay';
+import Link from "next/link"
+
 const slides = [
   {
     image: '/home_main.svg',
@@ -142,7 +144,9 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <Card key={i} className="relative p-2">
+              <Link href="/productdetail">
               <img src={`/w${i}.svg`} alt={`Product ${i}`} className="w-full h-120 object-cover" />
+              </Link>
               <Badge className="absolute top-2 right-2 rounded-full px-4 py-2 bg-[#844416] text-white text-xs">
                 ⭐ 4.5
               </Badge>
@@ -156,12 +160,14 @@ export default function Home() {
         </div>
 
         <div className="mt-6 pt-10 flex justify-start">
-          <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
-            SEE MORE
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
+          <Link href="/productlist">
+            <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
+              SEE MORE
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Button>
+          </Link>
         </div>
       </section>
       {/* Deals Countdown Section */}
@@ -192,7 +198,7 @@ export default function Home() {
         </div>
       </section>
       {/* Category Banners Section */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 px-6 lg:px-20 py-10">
+      <section className="grid grid-cols-1 sm:grid-cols-3  px-6 lg:px-0 py-10">
         {[
           {
             title: 'Casual Wear',
@@ -200,7 +206,7 @@ export default function Home() {
           },
           {
             title: '50% Summer Collection',
-            image: '/w2.svg',
+            image: '/w3.svg',
           },
           {
             title: 'Sports Ready',
@@ -248,12 +254,14 @@ export default function Home() {
         </div>
 
         <div className="mt-6 pt-10 flex justify-start">
-          <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
-            SEE MORE
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
+          <Link href="/productlist">
+            <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
+              SEE MORE
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -268,6 +276,25 @@ export default function Home() {
           priority
         />
       </section>
+      {/* Limited Edition Promo Banner */}
+<section className="relative w-full h-[550px] mt-12">
+  <img
+    src="/bottom.svg" 
+    alt="Limited Edition Offer"
+    className="w-full h-full object-cover"
+  />
+  {/* <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 text-white">
+    <p className="text-sm uppercase mb-1">Limited Edition</p>
+    <h2 className="text-4xl font-bold mb-2">50% OFF</h2>
+    <a
+      href="#"
+      className="text-sm underline hover:text-gray-300 transition-all duration-200"
+    >
+      see all collection
+    </a>
+  </div> */}
+</section>
+
     </div>
   )
 }
