@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import 'keen-slider/keen-slider.min.css';
 import { useState, useEffect } from 'react';
 import { AutoplayPlugin } from '@/lib/keen-autoplay';
+import Link from "next/link"
+
 const slides = [
   {
     image: '/home_main.svg',
@@ -142,7 +144,9 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <Card key={i} className="relative p-2">
+              <Link href="/productdetail">
               <img src={`/w${i}.svg`} alt={`Product ${i}`} className="w-full h-120 object-cover" />
+              </Link>
               <Badge className="absolute top-2 right-2 rounded-full px-4 py-2 bg-[#844416] text-white text-xs">
                 ⭐ 4.5
               </Badge>
@@ -156,12 +160,14 @@ export default function Home() {
         </div>
 
         <div className="mt-6 pt-10 flex justify-start">
-          <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
-            SEE MORE
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
+          <Link href="/productlist">
+            <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
+              SEE MORE
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Button>
+          </Link>
         </div>
       </section>
       {/* Deals Countdown Section */}
@@ -248,12 +254,14 @@ export default function Home() {
         </div>
 
         <div className="mt-6 pt-10 flex justify-start">
-          <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
-            SEE MORE
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
+          <Link href="/productlist">
+            <Button className="bg-[#844416] hover:bg-[#6e3612] text-white text-lg gap-2">
+              SEE MORE
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Button>
+          </Link>
         </div>
       </section>
 

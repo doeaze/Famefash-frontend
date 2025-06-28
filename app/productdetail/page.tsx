@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Minus, Plus, ShoppingCart, Heart, Badge ,Truck,RefreshCw} from 'lucide-react'
-import { Card, CardContent } from './ui/card'
+import { Card, CardContent } from "@/components/ui/card"
 
 const sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL']
 const thumbnails = ['/p6.svg', '/p2.svg', '/p3.svg', '/p4.svg', '/p5.svg']

@@ -4,6 +4,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
 import { useState } from "react"
+import Link from "next/link"
 
 const cartItems = [
   {
@@ -62,7 +63,7 @@ export default function CartPage() {
                 </div>
                 <p className="text-red-600 font-semibold">IDR {item.price.toLocaleString()}</p>
               </div>
-            
+
               <div className="flex items-center border border-gray-300 rounded">
                 <button className="px-3 py-1 text-lg">−</button>
                 <span className="px-4">{item.quantity}</span>
@@ -108,9 +109,11 @@ export default function CartPage() {
           </div>
         </div>
 
-        <Button className="w-full bg-[#d46331] hover:bg-[#b75121] text-white text-sm py-3">
-          PROCEED TO CHECKOUT
-        </Button>
+        <Link href="/checkout" className="w-full">
+          <Button className="w-full bg-[#d46331] hover:bg-[#b75121] text-white text-sm py-3">
+            PROCEED TO CHECKOUT
+          </Button>
+        </Link>
       </div>
     </div>
   )

@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
+import Footer from "@/components/footer/page";
 import Home from "./page";
 import Login from "@/components/login";
-import Checkout from "@/components/checkout";
-import CartPage from "@/components/CartPage";
-import ProductListPage from "@/components/ProductListPage";
-import ProductDetail from "@/components/ProductDetail";
+import Checkout from "@/app/checkout/page";
+import CartPage from "@/app/cartpage/page";
+import ProductListPage from "@/app/productlist/page";
 
 
 
