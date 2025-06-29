@@ -1,32 +1,35 @@
-export function AutoplayPlugin(slider: any) {
-  let timeout: ReturnType<typeof setTimeout>;
-  let mouseOver = false;
+import type { KeenSliderPlugin } from "keen-slider"
+
+export const AutoplayPlugin: KeenSliderPlugin = (slider) => {
+  let timeout: ReturnType<typeof setTimeout>
+  let mouseOver = false
 
   function clearNextTimeout() {
-    clearTimeout(timeout);
+    clearTimeout(timeout)
   }
 
   function nextTimeout() {
-    clearTimeout(timeout);
-    if (mouseOver) return;
+    clearTimeout(timeout)
+    if (mouseOver) return
     timeout = setTimeout(() => {
-      slider.next();
-    }, 3000); // 3 seconds per slide
+      slider.next()
+    }, 3000)
   }
 
   slider.on("created", () => {
+    if (!slider.container) return
     slider.container.addEventListener("mouseover", () => {
-      mouseOver = true;
-      clearNextTimeout();
-    });
+      mouseOver = true
+      clearNextTimeout()
+    })
     slider.container.addEventListener("mouseout", () => {
-      mouseOver = false;
-      nextTimeout();
-    });
-    nextTimeout();
-  });
+      mouseOver = false
+      nextTimeout()
+    })
+    nextTimeout()
+  })
 
-  slider.on("dragStarted", clearNextTimeout);
-  slider.on("animationEnded", nextTimeout);
-  slider.on("updated", nextTimeout);
+  slider.on("dragStarted", clearNextTimeout)
+  slider.on("animationEnded", nextTimeout)
+  slider.on("updated", nextTimeout)
 }
