@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import { Stepper } from "@/components/ui/stepper"; // Assume you've updated the custom stepper component
+import Link from "next/link";
 
 export default function Checkout() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -93,9 +94,11 @@ export default function Checkout() {
           </div>
         </div>
 
+        <Link href="/checkout/shipping">
         <Button className="mt-8 bg-[#844416] hover:bg-[#6f3612] text-white text-sm px-6 py-3 uppercase">
           Continue to Shipping
         </Button>
+        </Link>
       </div>
 
       {/* Right Order Summary */}

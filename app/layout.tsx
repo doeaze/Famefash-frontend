@@ -3,12 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer/page";
-import Home from "./page";
-import Login from "@/components/login";
-import Checkout from "@/app/checkout/page";
-import CartPage from "@/app/cartpage/page";
-import ProductListPage from "@/app/productlist/page";
-
 
 
 const geistSans = Geist({
@@ -36,13 +30,6 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} px-4 sm:px-6 lg:px-20`}>
         <Navbar/>
         <main>{children}</main>
-        {/* <ProductDetail/> */}
-        {/* <ProductListPage/> */}
-        {/* <Home/> */}
-       
-        {/* <CartPage/> */}
-        {/* <Login/> */}
-        {/* <Checkout/> */}
          <Footer/>
         
       </body>

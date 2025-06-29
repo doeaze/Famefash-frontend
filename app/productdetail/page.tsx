@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Minus, Plus, ShoppingCart, Heart, Badge ,Truck,RefreshCw} from 'lucide-react'
+import { Minus, Plus, ShoppingCart, Heart, Badge, Truck, RefreshCw } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
 
 const sizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL']
@@ -45,9 +45,8 @@ export default function ProductDetail() {
               {sizes.map((size) => (
                 <button
                   key={size}
-                  className={`px-4 py-1 border text-sm ${
-                    size === selectedSize ? 'bg-black text-white' : 'border-gray-300'
-                  }`}
+                  className={`px-4 py-1 border text-sm ${size === selectedSize ? 'bg-black text-white' : 'border-gray-300'
+                    }`}
                   onClick={() => setSelectedSize(size)}
                 >
                   {size}
@@ -128,7 +127,7 @@ export default function ProductDetail() {
               </div>
               <div>
                 <h3 className="font-semibold">Size & Fit</h3>
-                <p>The model (height 5'8") is wearing a size S</p>
+                <p>The model (height 5&#39;8&quot;) is wearing a size S</p>
               </div>
               <div>
                 <h3 className="font-semibold">Material & Care</h3>
@@ -161,7 +160,7 @@ export default function ProductDetail() {
                 <ul className="list-disc ml-5 text-gray-700">
                   <li>Length: Regular</li>
                   <li>Size Worn by Model: M</li>
-                  <li>Model Height: 5'8"</li>
+                  <li>Model Height: 5&#39;8&quot;</li>
                 </ul>
               </div>
             </div>
@@ -194,7 +193,14 @@ export default function ProductDetail() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <Card key={i} className="relative p-2">
-              <img src={`/w${i}.svg`} alt={`Product ${i}`} className="w-full h-120 object-cover" />
+              <Image
+                src={`/w${i}.svg`}
+                alt={`Product ${i}`}
+                width={300}
+                height={400}
+                className="w-full h-120 object-cover"
+              />
+
               <Badge className="absolute top-2 right-2 rounded-full px-6 py-3 bg-[#844416] text-white text-xs">
                 ⭐ 4.5
               </Badge>

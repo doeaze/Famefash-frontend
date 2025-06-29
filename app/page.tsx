@@ -34,7 +34,7 @@ const slides = [
 
 export default function Home() {
 
-  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+  const [sliderRef] = useKeenSlider<HTMLDivElement>({
     loop: true,
     slides: { perView: 1 },
     // autoplay: true,
@@ -145,7 +145,14 @@ export default function Home() {
           {[1, 2, 3, 4].map((i) => (
             <Card key={i} className="relative p-2">
               <Link href="/productdetail">
-              <img src={`/w${i}.svg`} alt={`Product ${i}`} className="w-full h-120 object-cover" />
+                <Image
+                  src={`/w${i}.svg`}
+                  alt={`Product ${i}`}
+                  width={300}
+                  height={400}
+                  className="w-full h-120 object-cover"
+                />
+
               </Link>
               <Badge className="absolute top-2 right-2 rounded-full px-4 py-2 bg-[#844416] text-white text-xs">
                 ⭐ 4.5
@@ -176,7 +183,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold mb-2">Deals Of The Month</h2>
           <p className="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           <Button className="bg-[#d35400] hover:bg-[#b03e00] text-white px-6 py-2 mb-6">Buy Now</Button>
-          <h3 className="text-lg font-medium mb-4">Hurry, Before It's Too Late!</h3>
+          <h3 className="text-lg font-medium mb-4">Hurry, Before It&apos;s Too Late!</h3>
           <div className="flex gap-3">
             {[['Days', timeLeft.days], ['Hr', timeLeft.hours], ['Mins', timeLeft.minutes], ['Sec', timeLeft.seconds]].map(([label, value]) => (
               <div key={label as string} className="bg-white shadow-md px-4 py-3 text-center rounded">
@@ -217,11 +224,13 @@ export default function Home() {
             key={i}
             className="relative h-[300px] group cursor-pointer overflow-hidden"
           >
-            <img
+            <Image
               src={item.image}
               alt={item.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
+
             <div className="absolute inset-0  bg-opacity-20 flex items-center justify-center text-center px-4">
               <h3 className="text-white text-xl sm:text-2xl font-semibold leading-tight">
                 {item.title}
@@ -240,7 +249,14 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (
             <Card key={i} className="relative p-2">
-              <img src={`/h${i}.svg`} alt={`Product ${i}`} className="w-full h-120 object-cover" />
+              <Image
+                src={`/h${i}.svg`}
+                alt={`Product ${i}`}
+                width={300}
+                height={400}
+                className="w-full h-120 object-cover"
+              />
+
               <Badge className="absolute top-2 right-2 rounded-full px-4 py-2 bg-[#844416] text-white text-xs">
                 ⭐ 4.8
               </Badge>
@@ -277,13 +293,15 @@ export default function Home() {
         />
       </section>
       {/* Limited Edition Promo Banner */}
-<section className="relative w-full h-[550px] mt-12">
-  <img
-    src="/bottom.svg" 
-    alt="Limited Edition Offer"
-    className="w-full h-full object-cover"
-  />
-  {/* <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 text-white">
+      <section className="relative w-full h-[550px] mt-12">
+        <Image
+          src="/bottom.svg"
+          alt="Limited Edition Offer"
+          fill
+          className="object-cover"
+        />
+
+        {/* <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-20 text-white">
     <p className="text-sm uppercase mb-1">Limited Edition</p>
     <h2 className="text-4xl font-bold mb-2">50% OFF</h2>
     <a
@@ -293,7 +311,7 @@ export default function Home() {
       see all collection
     </a>
   </div> */}
-</section>
+      </section>
 
     </div>
   )

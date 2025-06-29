@@ -22,8 +22,10 @@ export default function SuccessPage() {
 
       {/* Description */}
       <p className="max-w-xl text-sm text-gray-600 mb-8">
-        Lean back and relax, knowing our team is hard at work preparing and shipping your package swiftly. Feel free to browse our diverse product selection during this time – you might discover another item you'd like to add to your collection!
+        Lean back and relax, knowing our team is hard at work preparing and shipping your package swiftly.
+        Feel free to browse our diverse product selection during this time – you might discover another item you&#39;d like to add to your collection!
       </p>
+
 
       {/* Button */}
       <Link

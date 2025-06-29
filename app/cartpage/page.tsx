@@ -39,7 +39,16 @@ export default function CartPage() {
   const [items, setItems] = useState(cartItems)
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const total = subtotal - 50000 // assuming promo code saves 50k
+  const total = subtotal - 50000
+
+  const handleQuantityChange = (id: number, delta: number) => {
+    setItems(prev =>
+      prev.map(item =>
+        item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+      )
+    )
+  }
+
 
   return (
     <div className="px-6 lg:px-20 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -65,9 +74,10 @@ export default function CartPage() {
               </div>
 
               <div className="flex items-center border border-gray-300 rounded">
-                <button className="px-3 py-1 text-lg">−</button>
+                <button onClick={() => handleQuantityChange(item.id, -1)} className="px-3 py-1 text-lg">−</button>
                 <span className="px-4">{item.quantity}</span>
-                <button className="px-3 py-1 text-lg">+</button>
+                <button onClick={() => handleQuantityChange(item.id, 1)} className="px-3 py-1 text-lg">+</button>
+
               </div>
 
               <button className="flex items-center gap-1 text-sm text-gray-400 hover:text-red-600">
