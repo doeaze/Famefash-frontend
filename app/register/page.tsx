@@ -44,10 +44,16 @@ export default function RegisterPage() {
 
       console.log('✅ Registered:', data);
       router.push('/register/set-password');
-    } catch (err: any) {
-      console.error('❌ Registration error:', err.message);
-      setError(err.message);
-    } finally {
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error('❌ Registration error:', err.message);
+        setError(err.message);
+      } else {
+        console.error('❌ Unknown error:', err);
+        setError('An unexpected error occurred.');
+      }
+    }
+    finally {
       setLoading(false);
     }
   };
