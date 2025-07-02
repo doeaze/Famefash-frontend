@@ -1,13 +1,63 @@
 'use client';
 
+import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const router = useRouter();
+
+  const handleRegister = async () => {
+    setLoading(true);
+    setError('');
+
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/user/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: fullName,
+          email,
+          password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      console.log('✅ Registered:', data);
+      router.push('/register/set-password');
+    } catch (err) {
+      if (err instanceof Error) {
+        console.error('❌ Registration error:', err.message);
+        setError(err.message);
+      } else {
+        console.error('❌ Unknown error:', err);
+        setError('An unexpected error occurred.');
+      }
+    }
+    finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Left Image */}
@@ -24,27 +74,59 @@ export default function RegisterPage() {
       {/* Right Form */}
       <div className="w-full md:w-1/2 flex flex-col justify-center px-8 lg:px-20 h-full">
         <div className="max-w-md w-full mx-auto space-y-6">
-          {/* Title */}
           <h2 className="text-4xl font-bold text-gray-800">CREATE ACCOUNT</h2>
 
           {/* Full Name */}
           <div className="space-y-1">
             <Label className="uppercase text-xs text-orange-600">Full Name</Label>
-            <Input className="border px-3 py-2 text-sm" placeholder="John Doe" />
+            <Input
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="border px-3 py-2 text-sm"
+              placeholder="John Doe"
+            />
           </div>
 
           {/* Email */}
           <div className="space-y-1">
             <Label className="uppercase text-xs text-orange-600">Email</Label>
-            <Input className="border px-3 py-2 text-sm" placeholder="john@example.com" />
+            <Input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="border px-3 py-2 text-sm"
+              placeholder="john@example.com"
+            />
           </div>
 
-          {/* Submit Button with Arrow */}
-          <Link href='/register/set-password'>
-            <Button className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest">
-              BUTTON <ArrowRight className="ml-2" />
-            </Button>
-          </Link>
+          {/* Password */}
+          <div className="space-y-1">
+            <Label className="uppercase text-xs text-orange-600">Password</Label>
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border px-3 py-2 text-sm"
+              placeholder="••••••••"
+            />
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <p className="text-sm text-red-500 font-medium">{error}</p>
+          )}
+
+          {/* Submit Button */}
+          <Button
+            onClick={handleRegister}
+            disabled={loading}
+            className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
+          >
+            {loading ? 'Processing...' : (
+              <>
+                CONTINUE <ArrowRight className="ml-2" />
+              </>
+            )}
+          </Button>
 
           {/* Divider */}
           <div className="flex items-center gap-4 text-gray-500 text-sm">
@@ -53,7 +135,7 @@ export default function RegisterPage() {
             <hr className="flex-grow border-gray-300" />
           </div>
 
-          {/* Google and Facebook */}
+          {/* Social Logins */}
           <div className="space-y-3">
             <Button className="w-full border border-gray-300 bg-white text-gray-800 flex items-center justify-center gap-2 hover:bg-white hover:text-gray-800">
               <Image src="/google.svg" alt="Google" width={20} height={20} />
@@ -65,7 +147,6 @@ export default function RegisterPage() {
             </Button>
           </div>
 
-          {/* Bottom Link */}
           <p className="text-sm text-center text-gray-700">
             Already have an account?{' '}
             <Link href="/login" className="underline font-medium">

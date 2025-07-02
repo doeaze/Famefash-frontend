@@ -317,7 +317,6 @@
 // }
 
 
-// app/page.tsx
 'use client';
 
 import { useEffect } from 'react';
@@ -327,11 +326,12 @@ export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const isLoggedIn = false; // Replace with actual auth logic
+    const isLoggedIn = false;
     if (!isLoggedIn) {
       router.push('/login');
     }
-  }, []);
+  }, [router]);
 
   return <div>Loading...</div>;
 }
+
