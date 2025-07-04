@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ArrowRight, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,13 +11,56 @@ import { Label } from '@/components/ui/label';
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const router = useRouter();
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setLoading(true);
+
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/user/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data?.message || 'Login failed');
+            }
+
+            // Save token or user data (optional)
+            localStorage.setItem('token', data.token);
+
+            // Redirect to home
+            router.push('/home');
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('An unexpected error occurred');
+            }
+        }
+        finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div className="flex h-screen overflow-hidden">
             {/* Left Image Section */}
             <div className="relative w-1/2 hidden md:block h-full">
                 <Image
-                    src="/login.svg" 
+                    src="/login.svg"
                     alt="Login Visual"
                     fill
                     className="object-cover"
@@ -26,9 +70,10 @@ export default function Login() {
 
             {/* Right Form Section */}
             <div className="w-full md:w-1/2 flex flex-col justify-center px-8 lg:px-20 h-full">
-                <div className="max-w-md w-full mx-auto space-y-6">
-                    {/* Heading */}
+                <form onSubmit={handleLogin} className="max-w-md w-full mx-auto space-y-6">
                     <h2 className="text-4xl font-bold text-gray-800">SIGN IN</h2>
+
+                    {error && <p className="text-red-600 text-sm">{error}</p>}
 
                     {/* Email Input */}
                     <div className="space-y-1">
@@ -38,6 +83,9 @@ export default function Login() {
                         <Input
                             id="email"
                             type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
                             className="border px-3 py-2 w-full"
                         />
                     </div>
@@ -51,6 +99,9 @@ export default function Login() {
                             <Input
                                 id="password"
                                 type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
                                 className="border px-3 py-2 pr-10 w-full"
                             />
                             <button
@@ -63,7 +114,6 @@ export default function Login() {
                         </div>
                     </div>
 
-                    {/* Forgot Password */}
                     <div className="text-right text-sm">
                         <Link href="#" className="text-gray-600 underline">
                             Forgot Password
@@ -89,15 +139,15 @@ export default function Login() {
                         </Button>
                     </div>
 
-
-                    {/* Main Submit Button */}
-                    <Link href='/home'>
-                    <Button className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest">
-                        BUTTON <ArrowRight className="ml-2" />
+                    {/* Submit Button */}
+                    <Button
+                        type="submit"
+                        className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
+                        disabled={loading}
+                    >
+                        {loading ? 'Signing In...' : 'BUTTON'}
+                        <ArrowRight className="ml-2" />
                     </Button>
-                    </Link>
-
-                    {/* Password Rules */}
 
                     {/* Register Link */}
                     <p className="text-sm text-center">
@@ -106,7 +156,7 @@ export default function Login() {
                             Register here
                         </Link>
                     </p>
-                </div>
+                </form>
             </div>
         </div>
     );
