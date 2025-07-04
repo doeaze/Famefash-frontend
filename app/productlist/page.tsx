@@ -36,7 +36,7 @@ export default function ProductListPage() {
 				} else {
 					throw new Error('Invalid response structure');
 				}
-			} catch (err) {
+			} catch{
 				setError('Failed to load products');
 			} finally {
 				setLoading(false);

@@ -19,7 +19,7 @@ interface Product {
   sizes: string[];
 }
 
-const allSizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
+// const allSizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 export default function ProductDetail() {
   const params = useParams();
@@ -45,9 +45,10 @@ export default function ProductDetail() {
         } else {
           throw new Error('Invalid response');
         }
-      } catch (err) {
+      } catch {
         setError('Product not found');
       }
+
     };
 
     if (productId) {
@@ -179,7 +180,7 @@ export default function ProductDetail() {
               </div>
               <div>
                 <h3 className="font-semibold">Size & Fit</h3>
-                <p>The model (height 5'8") is wearing a size M</p>
+                <p>The model (height 5&apos;8&quot;) is wearing a size M</p>
               </div>
               <div>
                 <h3 className="font-semibold">Material & Care</h3>
