@@ -93,9 +93,11 @@ export default function Home() {
                 <h1 className="text-6xl font-serif font-bold mb-4">{slide.brand}</h1>
                 <p className="text-2xl text-gray-700 font-medium">{slide.offer}</p>
                 <p className="text-3xl text-gray-800 font-bold mt-1 mb-6">{slide.discount}</p>
+                <Link href="/productlist">
                 <Button variant="outline" className="border-black rounded-none px-2 py-2 text-sm">
                   Explore
                 </Button>
+                </Link>
               </div>
             </div>
           ))}
@@ -142,18 +144,18 @@ export default function Home() {
           THE BEST DRESS FOR THE BEST WOMAN
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <Card key={i} className="relative p-2">
-              <Link href="/productdetail">
+          {[1, 2, 3, 4].map((id) => (
+            <Link key={id} href={`/productdetail/${id}`}>
+            <Card key={id} className="relative p-2">
+              
                 <Image
-                  src={`/w${i}.svg`}
-                  alt={`Product ${i}`}
+                  src={`/w${id}.svg`}
+                  alt={`Product ${id}`}
                   width={300}
                   height={400}
                   className="w-full h-120 object-cover"
                 />
 
-              </Link>
               <Badge className="absolute top-2 right-2 rounded-full px-4 py-2 bg-[#844416] text-white text-xs">
                 ⭐ 4.5
               </Badge>
@@ -163,6 +165,7 @@ export default function Home() {
                 <p className="text-sm text-gray-700">IDR XXX</p>
               </CardContent>
             </Card>
+            </Link>
           ))}
         </div>
 
@@ -247,26 +250,28 @@ export default function Home() {
           BEST OUTFIT FOR YOUR HAPPINESS
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => (
-            <Card key={i} className="relative p-2">
-              <Image
-                src={`/h${i}.svg`}
-                alt={`Product ${i}`}
-                width={300}
-                height={400}
-                className="w-full h-120 object-cover"
-              />
+          {[1, 2, 3, 4].map((id) => (
+  <Link key={id} href={`/productdetail/${id}`}>
+    <Card className="relative p-2">
+      <Image
+        src={`/h${id}.svg`}
+        alt={`Product ${id}`}
+        width={300}
+        height={400}
+        className="w-full h-120 object-cover"
+      />
+      <Badge className="absolute top-2 right-2 rounded-full px-4 py-2 bg-[#844416] text-white text-xs">
+        ⭐ 4.8
+      </Badge>
+      <CardContent className="mt-2">
+        <p className="text-xs text-gray-500">PRODUCT CATEGORY</p>
+        <p className="text-sm font-medium">Product Name {id}</p>
+        <p className="text-sm text-gray-700">IDR XXX</p>
+      </CardContent>
+    </Card>
+  </Link>
+))}
 
-              <Badge className="absolute top-2 right-2 rounded-full px-4 py-2 bg-[#844416] text-white text-xs">
-                ⭐ 4.8
-              </Badge>
-              <CardContent className="mt-2">
-                <p className="text-xs text-gray-500">PRODUCT CATEGORY</p>
-                <p className="text-sm font-medium">Product Name</p>
-                <p className="text-sm text-gray-700">IDR XXX</p>
-              </CardContent>
-            </Card>
-          ))}
         </div>
 
         <div className="mt-6 pt-10 flex justify-start">
