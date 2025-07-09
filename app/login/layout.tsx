@@ -1,4 +1,4 @@
-// app/login/layout.tsx
+
 export default function LoginLayout({
   children,
 }: {
@@ -6,7 +6,7 @@ export default function LoginLayout({
 }) {
   return (
     <html lang="en">
-      <body className="w-full h-screen overflow-hidden">
+      <body className="w-full overflow-hidden">
         {children}
       </body>
     </html>

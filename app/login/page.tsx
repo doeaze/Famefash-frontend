@@ -151,11 +151,18 @@ export default function Login() {
 
                     {/* Register Link */}
                     <p className="text-sm text-center">
-                        Don’t have account?{' '}
+                        Don’t have an account?{' '}
                         <Link href="/register" className="underline font-semibold">
                             Register here
                         </Link>
                     </p>
+                    <p className="text-sm text-center mt-2">
+                        <span className="text-gray-600">Are you an admin? </span>
+                        <Link href="/admin/login" className="underline font-semibold text-orange-600 hover:text-orange-800">
+                            Login here
+                        </Link>
+                    </p>
+
                 </form>
             </div>
         </div>
