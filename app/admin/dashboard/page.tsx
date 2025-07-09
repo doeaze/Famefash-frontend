@@ -11,7 +11,7 @@ export default function AdminDashboard() {
     if (!isAdmin) {
       router.push('/admin/login');
     }
-  }, []);
+  }, [router]);
 
   return (
     <div>
