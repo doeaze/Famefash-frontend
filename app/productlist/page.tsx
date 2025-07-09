@@ -42,7 +42,6 @@ export default function ProductListPage() {
 				setLoading(false);
 			}
 		};
-
 		fetchProducts();
 	}, []);
 
