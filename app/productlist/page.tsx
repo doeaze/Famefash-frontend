@@ -20,13 +20,13 @@ export default function ProductListPage() {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
-	 const [selected, setSelected] = useState<string[]>([  ]);
-const [isLoading, setIsLoading] = useState(false);
-  const frameworks = [
-  { label: "Next.js", value: "nextjs" },
-  { label: "React", value: "react" },
-  { label: "Vue.js", value: "vue" }
-];
+	const [selected, setSelected] = useState<string[]>([]);
+	const [isLoading] = useState(false);
+	const frameworks = [
+		{ label: "Next.js", value: "nextjs" },
+		{ label: "React", value: "react" },
+		{ label: "Vue.js", value: "vue" }
+	];
 
 	const sizes = ['S', 'M', 'L', 'XL'];
 	const colors = [
@@ -44,7 +44,7 @@ const [isLoading, setIsLoading] = useState(false);
 				} else {
 					throw new Error('Invalid response structure');
 				}
-			} catch{
+			} catch {
 				setError('Failed to load products');
 			} finally {
 				setLoading(false);
@@ -62,12 +62,12 @@ const [isLoading, setIsLoading] = useState(false);
 				{/* Sizes */}
 				<div>
 					<MultiSelect
-  options={frameworks}
-  value={selected}
-  onChange={setSelected}
-  placeholder="Select frameworks..."
-  isLoading={isLoading}
-/>
+						options={frameworks}
+						value={selected}
+						onChange={setSelected}
+						placeholder="Select frameworks..."
+						isLoading={isLoading}
+					/>
 					<p className="font-semibold mb-2">Size</p>
 					<div className="flex gap-2 flex-wrap">
 						{sizes.map(size => (

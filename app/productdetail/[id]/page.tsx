@@ -31,14 +31,13 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState('M');
   const [activeTab, setActiveTab] = useState('details');
   const [error, setError] = useState('');
- const [selected, setSelected] = useState<string[]>([  "javascript",
-    "typescript",]);
-const [isLoading, setIsLoading] = useState(false);
+  const [selected, setSelected] = useState<string[]>([]);
+  const [isLoading,] = useState(false);
   const frameworks = [
-  { label: "Next.js", value: "nextjs" },
-  { label: "React", value: "react" },
-  { label: "Vue.js", value: "vue" }
-];
+    { label: "Next.js", value: "nextjs" },
+    { label: "React", value: "react" },
+    { label: "Vue.js", value: "vue" }
+  ];
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -75,13 +74,13 @@ const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
-    <MultiSelect
-  options={frameworks}     
-  value={selected}         
-  onChange={setSelected}   
-  placeholder="Select frameworks..."
-  isLoading={isLoading}
-/>
+      <MultiSelect
+        options={frameworks}
+        value={selected}
+        onChange={setSelected}
+        placeholder="Select frameworks..."
+        isLoading={isLoading}
+      />
 
       <div className="px-6 lg:px-20 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -132,7 +131,7 @@ const [isLoading, setIsLoading] = useState(false);
                 </button>
               ))}
             </div>
-            
+
 
             {/* Quantity + Add to Cart */}
             <div className="mt-6 flex items-center gap-4">
