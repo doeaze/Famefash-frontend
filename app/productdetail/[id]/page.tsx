@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Minus, Plus, ShoppingCart, Heart, Badge, Truck, RefreshCw } from 'lucide-react';
 import { Card, CardContent } from "@/components/ui/card";
 import Link from 'next/link';
+import MultiSelect from '@/components/ui/multi-select';
 
 interface Product {
   id: number;
@@ -30,6 +31,14 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState('M');
   const [activeTab, setActiveTab] = useState('details');
   const [error, setError] = useState('');
+ const [selected, setSelected] = useState<string[]>([  "javascript",
+    "typescript",]);
+const [isLoading, setIsLoading] = useState(false);
+  const frameworks = [
+  { label: "Next.js", value: "nextjs" },
+  { label: "React", value: "react" },
+  { label: "Vue.js", value: "vue" }
+];
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -66,6 +75,14 @@ export default function ProductDetail() {
 
   return (
     <>
+    <MultiSelect
+  options={frameworks}     
+  value={selected}         
+  onChange={setSelected}   
+  placeholder="Select frameworks..."
+  isLoading={isLoading}
+/>
+
       <div className="px-6 lg:px-20 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Images */}
@@ -115,6 +132,7 @@ export default function ProductDetail() {
                 </button>
               ))}
             </div>
+            
 
             {/* Quantity + Add to Cart */}
             <div className="mt-6 flex items-center gap-4">
