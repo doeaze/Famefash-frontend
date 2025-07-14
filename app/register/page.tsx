@@ -308,9 +308,14 @@ export default function RegisterPage() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.message || 'Registration failed')
       router.push('/login')
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong.')
-    } finally {
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Something went wrong.')
+      } else {
+        setError('Something went wrong.')
+      }
+    }
+    finally {
       setLoading(false)
     }
   }
@@ -328,7 +333,7 @@ export default function RegisterPage() {
           <h2 className="text-4xl font-bold text-gray-800 text-center w-full">CREATE ACCOUNT</h2>
 
           <div className="flex items-center justify-between">
-            
+
             {step > 1 ? (
               <Button type="button" variant="ghost" onClick={handleBack} className="text-gray-700">
                 <ArrowLeft className="mr-1" size={18} />
