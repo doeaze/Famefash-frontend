@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import MultiSelect from '@/components/ui/multi-select';
 
 interface Product {
 	id: number;
@@ -19,6 +20,13 @@ export default function ProductListPage() {
 	const [products, setProducts] = useState<Product[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState('');
+	const [selected, setSelected] = useState<string[]>([]);
+	const [isLoading] = useState(false);
+	const frameworks = [
+		{ label: "Next.js", value: "nextjs" },
+		{ label: "React", value: "react" },
+		{ label: "Vue.js", value: "vue" }
+	];
 
 	const sizes = ['S', 'M', 'L', 'XL'];
 	const colors = [
@@ -36,7 +44,7 @@ export default function ProductListPage() {
 				} else {
 					throw new Error('Invalid response structure');
 				}
-			} catch{
+			} catch {
 				setError('Failed to load products');
 			} finally {
 				setLoading(false);
@@ -46,13 +54,20 @@ export default function ProductListPage() {
 	}, []);
 
 	return (
-		<div className="px-6 lg:px-20 py-10 grid grid-cols-1 md:grid-cols-4 gap-10">
+		<div className="px-6 lg:px-20 py-10 grid grid-cols-1 md:grid-cols-4 g ap-10">
 			{/* Filters */}
 			<div className="space-y-6">
 				<h1 className="text-3xl font-bold">ALL PRODUCTS</h1>
 
 				{/* Sizes */}
 				<div>
+					<MultiSelect
+						options={frameworks}
+						value={selected}
+						onChange={setSelected}
+						placeholder="Select frameworks..."
+						isLoading={isLoading}
+					/>
 					<p className="font-semibold mb-2">Size</p>
 					<div className="flex gap-2 flex-wrap">
 						{sizes.map(size => (

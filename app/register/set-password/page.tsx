@@ -90,13 +90,15 @@ export default function SetPasswordPage() {
           </div>
 
           {/* Rules */}
-          <ul className="text-xs text-gray-700 space-y-1">
-            {passwordRules.map((rule, idx) => (
-              <li key={idx}>
-                {rule.valid ? '✅' : '⚪'} {rule.label}
-              </li>
-            ))}
-          </ul>
+          {password.length > 0 && (
+            <ul className="text-xs text-gray-700 space-y-1 mt-2">
+              {passwordRules.map((rule, idx) => (
+                <li key={idx}>
+                  {rule.valid ? '✅' : '⚪'} {rule.label}
+                </li>
+              ))}
+            </ul>
+          )}
 
           {/* Button */}
           <Link href='/home'>

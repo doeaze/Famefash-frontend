@@ -114,11 +114,14 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <div className="text-right text-sm">
-                        <Link href="#" className="text-gray-600 underline">
-                            Forgot Password
-                        </Link>
+                    <div className="flex justify-center">
+                        <div className="flex items-center text-sm text-gray-500 underline cursor-pointer">
+                            <Link href="/forgotpassword">
+                                Forgot Password
+                            </Link>
+                        </div>
                     </div>
+
 
                     {/* Divider */}
                     <div className="flex items-center gap-4 text-gray-500 text-sm">
@@ -145,7 +148,7 @@ export default function Login() {
                         className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
                         disabled={loading}
                     >
-                        {loading ? 'Signing In...' : 'BUTTON'}
+                        {loading ? 'Signing In...' : 'SIGN IN'}
                         <ArrowRight className="ml-2" />
                     </Button>
 
