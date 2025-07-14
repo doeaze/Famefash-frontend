@@ -78,7 +78,7 @@ export default function Login() {
                     {/* Email Input */}
                     <div className="space-y-1">
                         <Label htmlFor="email" className="uppercase text-xs text-orange-600">
-                            EMAIL
+                            Email/Mobile No.
                         </Label>
                         <Input
                             id="email"
