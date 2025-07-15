@@ -280,9 +280,10 @@ export default function RegisterPage() {
       if (!firstName || !lastName) return setError('Please enter your full name.')
       setStep(2)
     } else if (step === 2) {
-      if (!email || !mobile) return setError('Please enter email and mobile number.')
-      setStep(3)
-    }
+  if (!email) return setError('Please enter your email.')
+  setStep(3)
+}
+
   }
 
   const handleRegister = async () => {
