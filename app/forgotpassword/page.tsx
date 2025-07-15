@@ -1,103 +1,3 @@
-// 'use client'
-
-// import { useRouter } from 'next/navigation'
-// import Image from 'next/image'
-// import { Button } from '@/components/ui/button'
-// import Link from 'next/link'
-// import { ArrowLeft, ArrowRight } from 'lucide-react'
-
-// export default function ForgotPassword() {
-//     const router = useRouter()
-
-//     const handleEmailOTP = () => {
-//         console.log('Send OTP to Email')
-//         // router.push('/verify/email')
-//     }
-
-//     const handleMobileOTP = () => {
-//         console.log('Send OTP to Mobile')
-//         // router.push('/verify/mobile')
-//     }
-
-//     const handleSubmit = (e: React.FormEvent) => {
-//         e.preventDefault()
-//         console.log('Proceed to reset')
-//         // router.push('/reset-password')
-//     }
-
-//     return (
-//         <div className="flex h-screen overflow-hidden">
-//             {/* Left Image Section */}
-//             <div className="relative w-1/2 hidden md:block h-full">
-//                 <Image
-//                     src="/login.svg"
-//                     alt="Forgot Password Visual"
-//                     fill
-//                     className="object-cover"
-//                     priority
-//                 />
-//             </div>
-
-//             {/* Right Form Section */}
-//             <div className="w-full md:w-1/2 flex flex-col justify-center px-8 lg:px-20 h-full">
-//                 <form
-//                     onSubmit={handleSubmit}
-//                     className="max-w-md w-full mx-auto space-y-6 text-center"
-//                 >
-//                     {/* <h2 className="text-3xl font-bold text-gray-800"><ArrowLeft className="mr-2" size={18} />FORGOT PASSWORD</h2> */}
-//                     <h2 className="flex items-center text-3xl font-bold text-gray-800">
-//                         <Link href="/login">
-//                             <ArrowLeft className="mr-6" size={18} />
-//                         </Link>
-//                         FORGOT PASSWORD
-//                     </h2>
-
-
-//                     {/* Email OTP Button */}
-//                     <Button
-//                         type="button"
-//                         onClick={handleEmailOTP}
-//                         className="w-full border border-gray-300 bg-white text-gray-800 hover:bg-gray-100"
-//                     >
-//                         OTP on Email
-//                     </Button>
-
-//                     {/* Mobile OTP Button */}
-//                     <Button
-//                         type="button"
-//                         onClick={handleMobileOTP}
-//                         className="w-full border border-gray-300 bg-white text-gray-800 hover:bg-gray-100"
-//                     >
-//                         OTP on Mobile No.
-//                     </Button>
-
-//                     {/* Go Back Link */}
-//                     <div className="text-sm text-gray-500 underline cursor-pointer">
-//                         {/* <Link href="/login">Go Back</Link> */}
-//                         OR
-//                     </div>
-
-//                     {/* Submit Button */}
-//                     {/* <Button
-//             type="submit"
-//             className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
-//           >
-//             BUTTON <ArrowRight className="ml-2" size={18} />
-//           </Button> */}
-
-//                     {/* Login Link */}
-//                     <p className="text-sm text-center mt-2">
-//                         Already have an account?{' '}
-//                         <Link href="/login" className="text-black underline font-medium">
-//                             Login
-//                         </Link>
-//                     </p>
-//                 </form>
-//             </div>
-//         </div>
-//     )
-// }
-
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -116,26 +16,112 @@ export default function ForgotPassword() {
   const [mobile, setMobile] = useState('')
   const [otp, setOtp] = useState('')
   const [method, setMethod] = useState<'email' | 'mobile' | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [resendCooldown, setResendCooldown] = useState(0)
+  const [error, setError] = useState<string | null>(null)
+
+  const API_BASE = 'https://famefash-backend.onrender.com/api/login'
+
+  const resendOtp = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch(`${API_BASE}/resend-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(method === 'email' ? { email } : { phone: mobile }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data?.message || 'Failed to resend OTP')
+
+      // Start cooldown timer
+      setResendCooldown(30)
+      const interval = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev === 1) clearInterval(interval)
+          return prev - 1
+        })
+      }, 1000)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const sendOtp = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch(`${API_BASE}/request-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(method === 'email' ? { email } : { phone: mobile }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data?.message || 'Failed to send OTP')
+      setStep('otpInput')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    }
+    finally {
+      setLoading(false)
+    }
+  }
+
+  const verifyOtp = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch(`${API_BASE}/verify-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          otp,
+          ...(method === 'email' ? { email } : { phone: mobile }),
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data?.message || 'Invalid OTP')
+      router.push('/register/set-password')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    }
+    finally {
+      setLoading(false)
+    }
+  }
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault()
-
-    if (step === 'emailInput') {
-      console.log('Sending OTP to email:', email)
-      setMethod('email')
-      setStep('otpInput')
-    } else if (step === 'mobileInput') {
-      console.log('Sending OTP to mobile:', mobile)
-      setMethod('mobile')
-      setStep('otpInput')
-    }
+    setMethod(step === 'emailInput' ? 'email' : 'mobile')
+    sendOtp()
   }
 
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Verifying OTP:', otp)
-    // You can verify the OTP here and redirect to reset password
-    router.push('/reset-password')
+    verifyOtp()
   }
 
   return (
@@ -165,6 +151,8 @@ export default function ForgotPassword() {
             FORGOT PASSWORD
           </h2>
 
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
           {/* Step 1: Choose Method */}
           {step === 'options' && (
             <>
@@ -188,7 +176,7 @@ export default function ForgotPassword() {
             </>
           )}
 
-          {/* Step 2: Email Input */}
+          {/* Email Input */}
           {step === 'emailInput' && (
             <>
               <div className="text-left">
@@ -206,9 +194,10 @@ export default function ForgotPassword() {
 
               <Button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
               >
-                Send OTP <ArrowRight className="ml-2" size={18} />
+                {loading ? 'Sending OTP...' : 'Send OTP'} <ArrowRight className="ml-2" size={18} />
               </Button>
 
               <div className="text-sm text-gray-500 underline cursor-pointer">
@@ -219,7 +208,7 @@ export default function ForgotPassword() {
             </>
           )}
 
-          {/* Step 2: Mobile Input */}
+          {/* Mobile Input */}
           {step === 'mobileInput' && (
             <>
               <div className="text-left">
@@ -237,9 +226,10 @@ export default function ForgotPassword() {
 
               <Button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
               >
-                Send OTP <ArrowRight className="ml-2" size={18} />
+                {loading ? 'Sending OTP...' : 'Send OTP'} <ArrowRight className="ml-2" size={18} />
               </Button>
 
               <div className="text-sm text-gray-500 underline cursor-pointer">
@@ -250,7 +240,7 @@ export default function ForgotPassword() {
             </>
           )}
 
-          {/* Step 3: OTP Input */}
+          {/* OTP Input */}
           {step === 'otpInput' && (
             <>
               <div className="text-left">
@@ -265,17 +255,40 @@ export default function ForgotPassword() {
                   onChange={(e) => setOtp(e.target.value)}
                 />
               </div>
-            <Link href="/register/set-password" className="text-sm text-gray-500 underline cursor-pointer">
+
+              <div className="flex justify-between items-center text-sm text-gray-500">
+                <button
+                  type="button"
+                  onClick={resendOtp}
+                  disabled={loading || resendCooldown > 0}
+                  className="underline"
+                >
+                  {resendCooldown > 0 ? `Resend OTP in ${resendCooldown}s` : 'Resend OTP'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setStep(method === 'email' ? 'emailInput' : 'mobileInput')}
+                  className="underline"
+                >
+                  Go Back
+                </button>
+              </div>
+
+
               <Button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
               >
-                Verify OTP <ArrowRight className="ml-2" size={18} />
+                {loading ? 'Verifying...' : 'Verify OTP'} <ArrowRight className="ml-2" size={18} />
               </Button>
-            </Link>
 
               <div className="text-sm text-gray-500 underline cursor-pointer">
-                <button type="button" onClick={() => setStep(method === 'email' ? 'emailInput' : 'mobileInput')}>
+                <button
+                  type="button"
+                  onClick={() => setStep(method === 'email' ? 'emailInput' : 'mobileInput')}
+                >
                   Go Back
                 </button>
               </div>
