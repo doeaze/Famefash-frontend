@@ -138,23 +138,26 @@ export default function MultiSelect({
                 )}
               </CommandEmpty>
               <CommandGroup>
-                {options?.map((option) => (
-                  <CommandItem
-                    key={option.value}
-                    value={option.value}
-                    onSelect={() => handleSelect(option.value)}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value.includes(option.value)
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                    {option.label}
-                  </CommandItem>
-                ))}
+                {options
+                  ?.filter((option) => !value.includes(option.value))
+                  .map((option) => (
+
+                    <CommandItem
+                      key={option.value}
+                      value={option.value}
+                      onSelect={() => handleSelect(option.value)}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          value.includes(option.value)
+                            ? "opacity-100"
+                            : "opacity-0"
+                        )}
+                      />
+                      {option.label}
+                    </CommandItem>
+                  ))}
               </CommandGroup>
             </CommandList>
           </Command>

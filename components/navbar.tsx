@@ -57,13 +57,19 @@
 'use client'
 
 import { useState, useEffect, useRef } from "react"
-import CollectionMenu from "./CollectionMenu"
 import { Search, User, ShoppingCart, Heart } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import Men from "./men"
+import Women from "./Women"
+import Kids from "./kids"
+import Home from "./home"
 
 const Navbar = () => {
-  const [showCollection, setShowCollection] = useState(false)
+  const [showMen, setShowMen] = useState(false)
+  const [showWomen, setShowWomen] = useState(false)
+  const [showKids, setShowKids] = useState(false)
+  const [home, setHome] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
   const router = useRouter()
@@ -83,7 +89,7 @@ const Navbar = () => {
   }, [])
 
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn') // clear session
+    localStorage.removeItem('isLoggedIn') 
     setUserMenuOpen(false)
     router.push('/login')
   }
@@ -105,17 +111,35 @@ const Navbar = () => {
 
         {/* Nav Links */}
         <div className="relative flex gap-8 text-sm font-medium">
-          <div
-            onMouseEnter={() => setShowCollection(true)}
-            onMouseLeave={() => setShowCollection(false)}
+          <div className="relative group"
+            onMouseEnter={() => setShowMen(true)}
+            onMouseLeave={() => setShowMen(false)}
           >
-            <button className="hover:text-[#d65c2a]">Collection</button>
-            <CollectionMenu show={showCollection} />
+            <button className="hover:text-[#d67667]">Men</button>
+            <Men show={showMen} />
           </div>
-          <button>New In</button>
-          <button>Modiweek</button>
-          <button>Plus Size</button>
-          <button>Sustainability</button>
+          <div className="relative group"
+            onMouseEnter={() => setShowWomen(true)}
+            onMouseLeave={() => setShowWomen(false)}
+          >
+            <button className="hover:text-[#e679e2]">Women</button>
+            <Women show={showWomen} />
+          </div>
+          <div className="relative group"
+            onMouseEnter={() => setShowKids(true)}
+            onMouseLeave={() => setShowKids(false)}
+          >
+            <button className="hover:text-[#d65c2a]">Kids</button>
+            <Kids show={showKids} />
+          </div>
+          <button>Accesories</button>
+          <div className="relative group"
+            onMouseEnter={() => setHome(true)}
+            onMouseLeave={() => setHome(false)}
+          >
+            <button className="hover:text-[#e1df6d]">Home</button>
+            <Home show={home} />
+          </div>
         </div>
 
         {/* Icons */}

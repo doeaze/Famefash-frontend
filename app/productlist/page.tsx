@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import MultiSelect from '@/components/ui/multi-select';
+import ColorFilter from './ColorFilter';
+import React from 'react';
+import PriceFilter from './PriceFilter';
+
 
 interface Product {
 	id: number;
@@ -15,6 +19,7 @@ interface Product {
 	subCategory: string;
 	sizes: string[];
 }
+
 
 export default function ProductListPage() {
 	const [products, setProducts] = useState<Product[]>([]);
@@ -29,10 +34,20 @@ export default function ProductListPage() {
 	];
 
 	const sizes = ['S', 'M', 'L', 'XL'];
-	const colors = [
-		'#000000', '#ffffff', '#f87171', '#facc15', '#34d399',
-		'#60a5fa', '#a78bfa', '#f472b6', '#f97316', '#22d3ee'
-	];
+	// const colors = [
+	// 	'#000000', '#ffffff', '#f87171', '#facc15', '#34d399',
+	// 	'#60a5fa', '#a78bfa', '#f472b6', '#f97316', '#22d3ee'
+	// ];
+	const colorOptions = [
+  { name: "Red", hex: "#f87171" },
+  { name: "Blue", hex: "#60a5fa" },
+  { name: "Green", hex: "#34d399" },
+  { name: "Yellow", hex: "#facc15" },
+  { name: "Purple", hex: "#a78bfa" },
+];
+const [selectedColors, setSelectedColors] = React.useState<string[]>([]);
+const [priceRange, setPriceRange] = useState<[number, number]>([0, 400]);
+
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -56,7 +71,7 @@ export default function ProductListPage() {
 	return (
 		<div className="px-6 lg:px-20 py-10 grid grid-cols-1 md:grid-cols-4 g ap-10">
 			{/* Filters */}
-			<div className="space-y-6">
+			<div className="space-y-6 px-6">
 				<h1 className="text-3xl font-bold">ALL PRODUCTS</h1>
 
 				{/* Sizes */}
@@ -79,17 +94,14 @@ export default function ProductListPage() {
 				</div>
 
 				{/* Colors */}
-				<div>
-					<p className="font-semibold mb-2">Colors</p>
-					<div className="grid grid-cols-5 gap-2">
-						{colors.map((color, idx) => (
-							<div key={idx} className="w-6 h-6 rounded-full border" style={{ backgroundColor: color }} />
-						))}
-					</div>
-				</div>
+				<ColorFilter
+  colors={colorOptions}
+  selectedColors={selectedColors}
+  onChange={setSelectedColors}
+/>
 
 				{/* Prices */}
-				<div>
+				{/* <div>
 					<p className="font-semibold mb-2">Prices</p>
 					<ul className="text-sm space-y-1 text-gray-600">
 						<li>$0–$50</li>
@@ -98,7 +110,8 @@ export default function ProductListPage() {
 						<li>$150–$200</li>
 						<li>$200–$400</li>
 					</ul>
-				</div>
+				</div> */}
+				<PriceFilter priceRange={priceRange} setPriceRange={setPriceRange} />
 
 				{/* Brands */}
 				<div>
