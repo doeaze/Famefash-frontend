@@ -117,7 +117,7 @@ export default function MultiSelect({
             </span>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0" align="start">
+        <PopoverContent className="w-[290px] p-0" align="start">
           <Command>
             <CommandInput autoFocus={false} placeholder="Search items..." />
             <CommandList>

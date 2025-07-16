@@ -122,6 +122,15 @@ export default function Login() {
                         </div>
                     </div>
 
+                    {/* Submit Button */}
+                    <Button
+                        type="submit"
+                        className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
+                        disabled={loading}
+                    >
+                        {loading ? 'Signing In...' : 'LOGIN'}
+                        <ArrowRight className="ml-2" />
+                    </Button>
 
                     {/* Divider */}
                     <div className="flex items-center gap-4 text-gray-500 text-sm">
@@ -142,15 +151,7 @@ export default function Login() {
                         </Button>
                     </div>
 
-                    {/* Submit Button */}
-                    <Button
-                        type="submit"
-                        className="w-full bg-[#d9673f] hover:bg-[#c2552d] text-white text-sm tracking-widest"
-                        disabled={loading}
-                    >
-                        {loading ? 'Signing In...' : 'SIGN IN'}
-                        <ArrowRight className="ml-2" />
-                    </Button>
+                    
 
                     {/* Register Link */}
                     <p className="text-sm text-center">
@@ -159,12 +160,7 @@ export default function Login() {
                             Register here
                         </Link>
                     </p>
-                    <p className="text-sm text-center mt-2">
-                        <span className="text-gray-600">Are you an admin? </span>
-                        <Link href="/admin/login" className="underline font-semibold text-orange-600 hover:text-orange-800">
-                            Login here
-                        </Link>
-                    </p>
+                    
 
                 </form>
             </div>
