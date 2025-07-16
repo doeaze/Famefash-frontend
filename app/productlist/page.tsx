@@ -39,34 +39,66 @@ export default function ProductListPage() {
 	// 	'#60a5fa', '#a78bfa', '#f472b6', '#f97316', '#22d3ee'
 	// ];
 	const colorOptions = [
-  { name: "Red", hex: "#f87171" },
-  { name: "Blue", hex: "#60a5fa" },
-  { name: "Green", hex: "#34d399" },
-  { name: "Yellow", hex: "#facc15" },
-  { name: "Purple", hex: "#a78bfa" },
-];
-const [selectedColors, setSelectedColors] = React.useState<string[]>([]);
-const [priceRange, setPriceRange] = useState<[number, number]>([0, 400]);
+		{ name: "Red", hex: "#f87171" },
+		{ name: "Blue", hex: "#60a5fa" },
+		{ name: "Green", hex: "#34d399" },
+		{ name: "Yellow", hex: "#facc15" },
+		{ name: "Purple", hex: "#a78bfa" },
+	];
+	const [selectedColors, setSelectedColors] = React.useState<string[]>([]);
+	const [priceRange, setPriceRange] = useState<[number, number]>([0, 15000]);
 
+
+	// useEffect(() => {
+	// 	const fetchProducts = async () => {
+	// 		try {
+	// 			const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/product/list`);
+	// 			const data = await res.json();
+	// 			if (res.ok && data.success) {
+	// 				setProducts(data.products);
+	// 			} else {
+	// 				throw new Error('Invalid response structure');
+	// 			}
+	// 		} catch {
+	// 			setError('Failed to load products');
+	// 		} finally {
+	// 			setLoading(false);
+	// 		}
+	// 	};
+	// 	fetchProducts();
+	// }, []);
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/product/list`);
-				const data = await res.json();
-				if (res.ok && data.success) {
-					setProducts(data.products);
-				} else {
-					throw new Error('Invalid response structure');
+		const timeoutId = setTimeout(() => {
+			const fetchProducts = async () => {
+				setLoading(true);
+				setError('');
+				try {
+					const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/product/list`);
+					const data = await res.json();
+					if (res.ok && data.success) {
+						// ✅ Client-side filter here:
+						const filteredProducts = data.products.filter((product: Product) =>
+							product.price >= priceRange[0] && product.price <= priceRange[1]
+						);
+						setProducts(filteredProducts);
+					} else {
+						throw new Error('Invalid response structure');
+					}
+				} catch {
+					setError('Failed to load products');
+				} finally {
+					setLoading(false);
 				}
-			} catch {
-				setError('Failed to load products');
-			} finally {
-				setLoading(false);
-			}
-		};
-		fetchProducts();
-	}, []);
+			};
+
+			fetchProducts();
+		}, 300);
+
+		return () => clearTimeout(timeoutId);
+	}, [priceRange]);
+
+
 
 	return (
 		<div className="px-6 lg:px-20 py-10 grid grid-cols-1 md:grid-cols-4 g ap-10">
@@ -95,10 +127,10 @@ const [priceRange, setPriceRange] = useState<[number, number]>([0, 400]);
 
 				{/* Colors */}
 				<ColorFilter
-  colors={colorOptions}
-  selectedColors={selectedColors}
-  onChange={setSelectedColors}
-/>
+					colors={colorOptions}
+					selectedColors={selectedColors}
+					onChange={setSelectedColors}
+				/>
 
 				{/* Prices */}
 				{/* <div>
@@ -153,6 +185,10 @@ const [priceRange, setPriceRange] = useState<[number, number]>([0, 400]);
 			<div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 				{loading && <p>Loading products...</p>}
 				{error && <p className="text-red-600">{error}</p>}
+
+				{!loading && !error && products.length === 0 && (
+					<p className="text-gray-500 col-span-full">No products found in this price range.</p>
+				)}
 
 				{!loading && !error && products.map(product => (
 					<div key={product.id} className="space-y-2 group">

@@ -12,7 +12,7 @@ export default function PriceFilter({ priceRange, setPriceRange }: PriceFilterPr
       <div className="space-y-4">
         <Slider
           min={0}
-          max={400}
+          max={15000}
           step={10}
           value={priceRange}
           onValueChange={(value) => setPriceRange(value as [number, number])}
